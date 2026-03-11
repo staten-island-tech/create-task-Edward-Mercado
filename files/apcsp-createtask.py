@@ -8,52 +8,61 @@ numbers = [4, 5, 6, 9, 10, 12, 13, 14, 18, 20, 23, 45]
 def getUnitsDigit(num):
     return math.floor(num % 10)
 
-def askQuestion(usedNumbers, usedOps):
-    print(" ") # spacing/looks purposes
-    randomNum1 = random.choice(usedNumbers)
-    randomNum2 = random.choice(usedNumbers)
-    operation = random.choice(usedOps)
-    num1 = max([randomNum1, randomNum2])
-    num2 = min([randomNum1, randomNum2])
-    # i want num1 to be greater than or equal to num2, for simplicity
-    if operation == 'addition':
-        response = int(input(f"What is the unit digit of {num1} + {num2}? - "))
-        if response == getUnitsDigit(num1+num2):
-            return True
-        else: 
-            return False     
-    elif operation == 'subtraction':
-        response = int(input(f"What is the unit digit of {num1} - {num2}? - "))
-        if response == getUnitsDigit(num1-num2):
-            return True
-        else: 
-            return False
-    elif operation == 'multiplication':
-        response = int(input(f"What is the unit digit of {num1} x {num2}? - "))
-        if response == getUnitsDigit(num1*num2):
-            return True
-        else: 
-            return False
+def message(correct):
+    if correct:
+        print("You got that correct!")
     else:
-        response = int(input(f"What is the unit digit of {num1} / {num2}? - "))
-        if response == getUnitsDigit(num1/num2):
-            return True
-        else: 
-            return False
+        print("You got that incorrect.")
+
+def askQuestions(usedNumbers, usedOps, questions):
+    score = 0
+    for i in range(questions):
+        print(" ") # spacing/looks purposes
+        randomNum1 = random.choice(usedNumbers)
+        randomNum2 = random.choice(usedNumbers)
+        operation = random.choice(usedOps)
+        num1 = max([randomNum1, randomNum2])
+        num2 = min([randomNum1, randomNum2])
+        # i want num1 to be greater than or equal to num2, for simplicity
+        if operation == 'addition':
+            response = int(input(f"What is the unit digit of {num1} + {num2}? - "))
+            if response == getUnitsDigit(num1+num2):
+                message(True)
+                score+=1
+            else: 
+                message(False)     
+        elif operation == 'subtraction':
+            response = int(input(f"What is the unit digit of {num1} - {num2}? - "))
+            if response == getUnitsDigit(num1-num2):
+                message(True)
+                score+=1
+            else: 
+                message(False)
+        elif operation == 'multiplication':
+            response = int(input(f"What is the unit digit of {num1} x {num2}? - "))
+            if response == getUnitsDigit(num1*num2):
+                message(True)
+                score+=1
+            else: 
+                message(False)
+        else:
+            response = int(input(f"What is the unit digit of {num1} / {num2}? - "))
+            if response == getUnitsDigit(num1/num2):
+                message(True)
+                score+=1
+            else: 
+                message(False)
+                
+    return score
 
 def game(questions, usedNumbers, usedOps):
-    questionsCorrect = 0
     print("For the following questions, respond with the units digit of the result.")
-    for i in range(questions):
-        if(askQuestion(usedNumbers, usedOps) == True):
-            questionsCorrect += 1
-            print("You got that correct!")
-        else: 
-            print("Sorry, you got that incorrect.")
+    
+    score = askQuestions(usedNumbers, usedOps, questions)
             
     print(" ") # spacing/looks purposes
-    print(f"You got {questionsCorrect} questions correct!")
-    print(f"That's a score of {round((questionsCorrect/questions)* 100)}%!") 
+    print(f"You got {score} questions correct!")
+    print(f"That's a score of {round((score/questions)* 100)}%!") 
 
 questionCount = int(input("How many questions do you want to be asked? - "))
 for op in operations:
